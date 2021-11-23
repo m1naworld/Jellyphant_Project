@@ -25,13 +25,13 @@ router.post('/login', async(req, res, next) => {
             req.login(user, { session: false }, async(error) => {
                 if (error) return next(error)
                 const body = { _id: user._id };            
-                const token = jwt.sign({ user: body }, process.env.JWT_SECRET,{expiresIn:10});   
-                const rToken = jwt.sign({ user: body }, 'r_Key',{expiresIn:300});
+                const token = jwt.sign({ user: body }, process.env.JWT_SECRET,{expiresIn:20});   
+                const rToken = jwt.sign({ user: body }, 'r_Key',{expiresIn:"14d"});
 
 
                 //중복저장 해결해야함
                 const response = { token , rToken};
-                res.cookie('user',token)
+                res.cookie('user',token,{httpOnly:true})
                 const tokensave = new Rtoken({userid : user._id, token:response.rToken})
                 tokensave.save(
                 //     (err,doc)=> {

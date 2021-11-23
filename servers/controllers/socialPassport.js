@@ -7,7 +7,7 @@ export const passportKakao = (app) => {
     passport.use('kakao', new KakaoStrategy({
         clientID: process.env.KAKAO_REST_KEY,
         clientSecret: process.env.KAKAO_SECRET,
-        callbackURL: "http://localhost:3000/kiki",
+        callbackURL: process.env.KAKAO_CALLBACK_URL,
     }, async(accessToken, refreshToken, profile, done) => {
         console.log(`accessToken: ${accessToken}`);
         console.log(`refreshToken: ${refreshToken}`);
@@ -42,7 +42,7 @@ export const passportNaver = (app) => {
     passport.use('naver', new NaverStrategy({
         clientID: process.env.NAVER_KEY,
         clientSecret: process.env.NAVER_SECRET,
-        callbackURL: "http://localhost:3001/auth/naver", 
+        callbackURL: process.env.NAVER_CALLBACK_URL, 
     }, async(accessToken, refreshToken, profile, done) => {
         console.log(`accessToken: ${accessToken}`);
         console.log(`refreshToken: ${refreshToken}`);
