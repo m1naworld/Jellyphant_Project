@@ -10,7 +10,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 const app = express();
-const PORT = 4000;
+const PORT = 5000;
 
 const passportConfig = require("./config/passport");
 app.use(passport.initialize());
