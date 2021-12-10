@@ -1,7 +1,7 @@
 import { User } from "../models/User";
-import { addCalendar } from "./myCalendarController";
-import dotenv from "dotenv";
 import { mycalendar } from "../models/myCalendar";
+import { addCalendar } from "./myDataController";
+import dotenv from "dotenv";
 dotenv.config();
 
 const bcrypt = require("bcrypt");
@@ -22,11 +22,10 @@ export const join = async (req, res) => {
     password = await bcrypt.hash(password, salt);
 
     const snsId = email;
-    const newCalendar = await mycalendar.registerSnsId({ snsId });
-    console.log(`new ${newCalendar}`);
+    await mycalendar.registerSnsId({ snsId });
 
     // snsId를 통해 calendar db ObjectId를 user와 연결
-    const checkCalendar = await mycalendar.findUser({ snsId });
+    const checkCalendar = await mycalendar.findOne({ snsId });
     const userCalendar = checkCalendar._id;
 
     addCalendar(snsId);
