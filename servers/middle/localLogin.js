@@ -17,14 +17,30 @@ module.exports = () => {
         try {
           const users = await User.findByEmail({ email });
           if (!users) {
-            return done(null, false, { message: "User not found" });
+            return done(null, false, {
+              success: false,
+              message: "등록되지 않은 이메일 입니다.",
+            });
           }
           const validate = await bycrypt.compare(password, users.password);
           if (!validate) {
-            return done(null, false, { message: "Wrong Password" });
+            return done(null, false, {
+              success: false,
+              message: "비밀번호가 틀렸습니다.",
+            });
           }
-          return done(null, users, { message: "Logged in Successfully" });
+          if (!users.confirmation) {
+            return done(null, users, {
+              success: false,
+              message: "이메일 인증을 완료해 주세요!",
+            });
+          }
+          return done(null, users, {
+            success: true,
+            message: "로그인 성공!",
+          });
         } catch (error) {
+          console.log(error);
           return done(error);
         }
       }

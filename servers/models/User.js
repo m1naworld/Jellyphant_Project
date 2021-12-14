@@ -8,20 +8,25 @@ const userSchema = new mongoose.Schema(
   {
     provider: { type: String, required: true },
     snsId: { type: String, required: true, unique: true },
-    email: { type: String },
-    password: { type: String },
-    nickname: { type: String },
-    name: { type: String },
-    gender: { type: String },
-    age: { type: String },
-    birth: { type: String },
-    birthyear: { type: String },
-    phone: { type: String },
+    email: String,
+    password: String,
+    nickname: { type: String, default: null },
+    name: String,
+    gender: String,
+    age: String,
+    birth: String,
+    birthyear: String,
+    phone: String,
     registerdate: { type: String, default: registerDate },
     userCalendar: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: "mycalendar",
     },
+    img: {
+      type: String,
+      default: process.env.IMG,
+    },
+    confirmation: { type: Boolean, default: false },
   },
   { versionKey: false }
 );
@@ -63,10 +68,6 @@ userSchema.statics.join = function ({
   });
 
   return user.save();
-};
-
-userSchema.statics.modify = function ({ snsId, nickname }) {
-  return this.findOneAndUpdate({ snsId, $addToSet: nickname, new: true });
 };
 
 export const User = mongoose.model("User", userSchema);
