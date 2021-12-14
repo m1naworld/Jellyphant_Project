@@ -37,6 +37,7 @@ export const jwtVerify = async (req, res) => {
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
+			domain:"http:raymondubuntu.ddns.net"
                 });
                 console.log("access 재갱신 성공");
                 return res
@@ -72,6 +73,7 @@ export const jwtVerify = async (req, res) => {
                 res.cookie("reAuthorization", refreshjwt, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
+			domain:"http://raymondubuntu.ddns.net"
                 });
                 console.log("refresh 갱신 성공 ");
                 return res
