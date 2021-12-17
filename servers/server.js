@@ -5,22 +5,24 @@ import passport from "passport";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import api from "../routers/api";
-
 const app = express();
 const PORT = 5000;
+
 
 const passportConfig = require("./middle/localLogin");
 app.use(passport.initialize());
 passportConfig();
 
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: ['http://raymondubuntu.ddns.net'], credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use("/uploads", express.static("uploads"));
-app.use("/api", api);
+app.use("/api",api);
+
+
 
 // 서버연결
 app.listen(PORT, () => console.log(`Server is runngin on ${PORT}`));

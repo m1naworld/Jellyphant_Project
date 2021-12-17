@@ -15,6 +15,7 @@
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
+    "@fluent-org/logger": "^1.0.4",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",
     "dotenv": "^10.0.0",

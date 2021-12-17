@@ -7,22 +7,18 @@ export const jwtVerify = async (req, res) => {
   try {
     const accesstoken = req.cookies.Authorization;
     const refreshtoken = req.cookies.reAuthorization;
-    console.log({ accesstoken: accesstoken });
-    console.log({ refreshtoken: refreshtoken });
-
+    
     // DB에 저장된 refresh 가져오기
     const refreshed = await refresh.findByRefresh({ refreshtoken });
-    console.log({ refreshed: refreshed });
     let refreshjwt = refreshed.refreshjwt;
-    console.log({ dbRefresh: refreshjwt });
-
-    // access 유효성 검사
+        // access 유효성 검사
     jwt.verify(accesstoken, process.env.JWT_SECRET, async (error, decoded) => {
       if (error) {
         jwt.verify(
           refreshtoken,
           process.env.JWT_REFRESH_SECRET,
           (error, decoded) => {
+            
             if (error) {
               console.log("로그아웃");
               res.status(404).json({ success: false });
@@ -38,7 +34,8 @@ export const jwtVerify = async (req, res) => {
                 res.cookie("Authorization", accessToken, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
-			domain:"http:raymondubuntu.ddns.net"
+                        
+                  
                 });
                 console.log("access 재갱신 성공");
                 return res
@@ -54,9 +51,9 @@ export const jwtVerify = async (req, res) => {
           }
         );
       } else {
-        console.log(decoded);
+        console.log(refreshtoken === refreshjwt)
         let snsId = decoded.id;
-        console.log(snsId);
+        
         const user = await User.findBySnsId({ snsId });
         console.log(user);
         if (user) {
@@ -64,8 +61,8 @@ export const jwtVerify = async (req, res) => {
             refreshtoken,
             process.env.JWT_REFRESH_SECRET,
             async (error, decoded) => {
-              console.log(decoded);
               if (error) {
+                console.log(error);
                 await refresh.deleteRefresh({ refreshtoken });
                 refreshjwt = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
                   expiresIn: process.env.NEW_REFRESH_EXPIRE,
@@ -76,7 +73,8 @@ export const jwtVerify = async (req, res) => {
                 res.cookie("reAuthorization", refreshjwt, {
                   httpOnly: true,
                   expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
-			domain:"http://raymondubuntu.ddns.net"
+                        
+                  
                 });
                 console.log("refresh 갱신 성공 ");
                 return res

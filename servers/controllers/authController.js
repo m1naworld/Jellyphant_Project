@@ -4,6 +4,9 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 dotenv.config();
 
+////
+
+
 // DB
 import { refresh } from "../models/refreshToken";
 import { User } from "../models/User";
@@ -50,7 +53,7 @@ export const postJoin = async (req, res) => {
       .status(200)
       .json({ success: true, message: "VOYAGER의 가족이 된 것을 환영합니다!" });
   } catch (error) {
-    console.error(error.message);
+    console.error(error.message);    
     res.status(500).json({ success: false, message: "Server Error" });
   }
 };
@@ -92,12 +95,11 @@ export const postLogin = async (req, res, next) => {
         res.cookie("Authorization", accessToken, {
           httpOnly: true,
           expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
-		domain:"http://raymondubuntu.ddns.net"
-        });
+                  });
         res.cookie("reAuthorization", refreshjwt, {
           httpOnly: true,
           expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
-		domain:"http://raymondubuntu.ddns.net"
+                
         });
         return res.status(204).json({ success: true, message: "로그인 성공!" });
       });
@@ -132,12 +134,12 @@ export const postSocialLogin = async (req, res) => {
     res.cookie("Authorization", accessToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 3),
-	    domain:"http://raymondubuntu.ddns.net:5000"
+            
     });
     res.cookie("reAuthorization", refreshjwt, {
       httpOnly: true,
       expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 5),
-	    domain:"http://raymondubuntu.ddns.net:5000"
+            
     });
     return res.status(200).json({ success: true, message: "토큰 발급 성공" });
   } catch (error) {

@@ -113,7 +113,7 @@ export const sendEmail = async (req, res) => {
       html: htmlToSend,
     };
 
-    transporter.sendMail(message, async function (error, res) {
+    transporter.sendMail(message, function (error, res) {
       if (error) {
         console.log(error);
         return res

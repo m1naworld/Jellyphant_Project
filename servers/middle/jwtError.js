@@ -3,9 +3,9 @@ import { refresh } from "../models/refreshToken";
 export const tokenError = async (req, res, next) => {
   const accesstoken = req.cookies.Authorization;
   const refreshtoken = req.cookies.reAuthorization;
-	console.log(req.cookies)
-  console.log(accesstoken);
-  console.log(refreshtoken);
+  console.log(accesstoken)
+  console.log(refreshtoken)
+	
   if (!accesstoken || !refreshtoken) {
     return res
       .status(419)

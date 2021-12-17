@@ -4,6 +4,20 @@ import { addCalendar } from "../controllers/dataCalendarController";
 
 export const social = async (req, res, done) => {
   try {
+  const FluentClient = require('@fluent-org/logger').FluentClient;
+  const fluentd = new FluentClient('fluentd.test', {
+    host: 'raymondubuntu.ddns.net',
+    port: 24225,
+    timeout: 3000, // 3 seconds
+  });
+        //////
+        fluentd.emit('voyazer', 
+        { userip: req.ip, 
+          router : req.url,
+          usrinfo: req.host
+        });
+        //////
+    
     let { snsId, email, name, gender, age, birth, birthyear, phone } = req.body;
     const provider = "social";
     // email이 없을 경우
