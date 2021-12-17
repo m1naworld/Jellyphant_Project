@@ -1,9 +1,9 @@
 import express from "express";
 
 //middle
-import { jwtVerify } from "../servers/middle/jwtVerify";
 import { social } from "../servers/middle/socialJoin";
 import { tokenError } from "../servers/middle/jwtError";
+import { jwtVerify } from "../servers/middle/jwtVerify";
 
 //controller
 import {

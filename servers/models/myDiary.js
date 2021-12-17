@@ -5,7 +5,7 @@ const myDiarySchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: Date,
+        date: String,
         diary: String,
       },
     ],
@@ -13,15 +13,10 @@ const myDiarySchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-myDiarySchema.statics.registerSnsId = function ({ snsId }) {
-  const create = new this({ snsId });
-  return create.save();
-};
-
 myDiarySchema.statics.registerDiary = function ({ snsId, date, diary }) {
   return this.findOneAndUpdate(
     { snsId },
-    { $push: { data: { date, diary } } },
+    { $push: { data: { date: date, diary } } },
     { new: true, upsert: true }
   );
 };

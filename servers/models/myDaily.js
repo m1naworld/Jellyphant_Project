@@ -5,7 +5,7 @@ const myDailySchema = new mongoose.Schema(
     snsId: { type: String, required: true, unique: true },
     data: [
       {
-        date: Date,
+        date: String,
         question: {
           type: mongoose.SchemaTypes.ObjectId,
           ref: "dailyquestion",
@@ -16,11 +16,6 @@ const myDailySchema = new mongoose.Schema(
   },
   { versionKey: false }
 );
-
-myDailySchema.statics.registerSnsId = function ({ snsId, id }) {
-  const create = new this({ snsId, owner: id });
-  return create.save();
-};
 
 myDailySchema.statics.registerDaily = function ({
   snsId,
